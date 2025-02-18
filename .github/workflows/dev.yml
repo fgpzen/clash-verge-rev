@@ -20,12 +20,6 @@ jobs:
           - os: windows-latest
             target: x86_64-pc-windows-msvc
             bundle: nsis
-          - os: macos-latest
-            target: aarch64-apple-darwin
-            bundle: dmg
-          - os: macos-latest
-            target: x86_64-apple-darwin
-            bundle: dmg
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -70,15 +64,6 @@ jobs:
           sign: false
 
       - name: Upload Artifacts
-        if: matrix.os == 'macos-latest'
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.target }}
-          path: src-tauri/target/${{ matrix.target }}/release/bundle/dmg/*.dmg
-          if-no-files-found: error
-
-      - name: Upload Artifacts
-        if: matrix.os == 'windows-latest'
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.target }}
