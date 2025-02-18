@@ -86,9 +86,13 @@ impl Hotkey {
     pub fn unregister(&self, hotkey: &str) -> Result<()> {
         let app_handle = handle::Handle::global().app_handle().unwrap();
         let manager = app_handle.global_shortcut();
-        manager.unregister(hotkey)?;
+        
+        if manager.is_registered(hotkey) {
+            manager.unregister(hotkey)?;
+            log::debug!(target: "app", "unregister hotkey {hotkey} successfully");
+        }
 
-        log::debug!(target: "app", "unregister hotkey {hotkey}");
+        log::debug!(target: "app", "attempted to unregister hotkey {hotkey}");
         Ok(())
     }
 
